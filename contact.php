@@ -1,3 +1,19 @@
+<?php
+
+$pesan_berhasil = "";
+
+if (isset($_POST['kirim'])) {
+
+    $nama = $_POST['nama'];
+    $email = $_POST['email'];
+    $pesan = $_POST['pesan'];
+
+    $pesan_berhasil = "Terima kasih, $nama. Pesan kamu sudah berhasil dikirim.";
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -11,7 +27,6 @@
 
 <body>
 
-    <!-- HEADER -->
     <header>
         <div class="container">
 
@@ -24,7 +39,7 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="menu.html">Menu</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="contact.php">Contact</a></li>
                     <li><a href="testimoni.html">Testimoni</a></li>
                     <li><a href="payment.html">Payment</a></li>
                 </ul>
@@ -33,7 +48,6 @@
         </div>
     </header>
 
-    <!-- CONTACT -->
     <section class="contact">
 
         <div class="container">
@@ -54,15 +68,44 @@
 
             <p><strong>🕒 Jam Operasional:</strong> 08.00 - 22.00</p>
 
-            <form>
 
-                <input type="text" placeholder="Nama" required>
+            
+            <?php if ($pesan_berhasil != "") { ?>
 
-                <input type="email" placeholder="Email" required>
+                <p>
+                    <strong>
+                        <?php echo $pesan_berhasil; ?>
+                    </strong>
+                </p>
 
-                <textarea placeholder="Tulis pesan..." rows="5"></textarea>
+            <?php } ?>
 
-                <button type="submit">
+
+            
+            <form method="POST" action="contact.php">
+
+                <input
+                    type="text"
+                    name="nama"
+                    placeholder="Nama"
+                    required
+                >
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                >
+
+                <textarea
+                    name="pesan"
+                    placeholder="Tulis pesan..."
+                    rows="5"
+                    required
+                ></textarea>
+
+                <button type="submit" name="kirim">
                     Kirim Pesan
                 </button>
 
