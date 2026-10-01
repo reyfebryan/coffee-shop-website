@@ -1,3 +1,27 @@
+<?php
+
+$status = "paid";
+
+switch ($status) {
+    case "paid":
+        $statusText = "Pembayaran Berhasil";
+        break;
+
+    case "pending":
+        $statusText = "Menunggu Pembayaran";
+        break;
+
+    case "cancel":
+        $statusText = "Pembayaran Dibatalkan";
+        break;
+
+    default:
+        $statusText = "Status Tidak Diketahui";
+        break;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -38,6 +62,12 @@
             <h3>Cash</h3>
             <p>Pembayaran langsung di tempat.</p>
             <p>Silakan datang ke Coffee MAS REY.</p>
+        </div>
+
+        <!-- Tambahan dari materi Switch Case -->
+        <div class="payment-card">
+            <h3>Status Pembayaran</h3>
+            <p><b><?php echo $statusText; ?></b></p>
         </div>
 
     </div>
