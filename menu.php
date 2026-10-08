@@ -110,11 +110,12 @@ $products = [
 
 <body>
 
+<?php require 'header.php'; ?>
+
 <section class="menu">
 
     <h2>Coffee Product</h2>
 
-    <!-- SEARCH -->
     <div class="search-menu">
 
         <input
