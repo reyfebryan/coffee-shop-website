@@ -1,6 +1,5 @@
 <?php
 
-
 $customers = [
     [
         'id' => 1,
@@ -39,17 +38,33 @@ $customers = [
     ]
 ];
 
+$totalMember = 0;
+$totalVIP = 0;
+
+foreach ($customers as $customer) {
+    if ($customer['type'] === 'member') {
+        $totalMember++;
+    }
+
+    if ($customer['type'] === 'vip') {
+        $totalVIP++;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Data Customer - Coffee MAS REY</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -57,6 +72,7 @@ $customers = [
 <div class="container py-5">
 
     <h3 class="mb-2">Data Customer Coffee MAS REY</h3>
+
     <p class="text-muted">
         Daftar pelanggan Coffee Shop MAS REY
     </p>
@@ -64,7 +80,39 @@ $customers = [
     <div class="card shadow-sm">
         <div class="card-body">
 
+            <div class="row g-3 mb-4">
+
+                <div class="col-md-4">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h6>Total Customer</h6>
+                            <h3><?= count($customers) ?></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h6>Total Member</h6>
+                            <h3><?= $totalMember ?></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card bg-warning text-dark">
+                        <div class="card-body">
+                            <h6>Total VIP</h6>
+                            <h3><?= $totalVIP ?></h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="table-responsive">
+
                 <table class="table table-bordered table-striped align-middle">
 
                     <thead class="table-dark">
@@ -78,7 +126,9 @@ $customers = [
                     </thead>
 
                     <tbody>
+
                         <?php foreach ($customers as $index => $customer): ?>
+
                             <tr>
                                 <td><?= $index + 1 ?></td>
 
@@ -96,26 +146,33 @@ $customers = [
 
                                 <td>
                                     <?php if ($customer['type'] === 'vip'): ?>
+
                                         <span class="badge bg-warning text-dark">
                                             VIP
                                         </span>
 
                                     <?php elseif ($customer['type'] === 'member'): ?>
+
                                         <span class="badge bg-success">
                                             Member
                                         </span>
 
                                     <?php else: ?>
+
                                         <span class="badge bg-secondary">
                                             Regular
                                         </span>
+
                                     <?php endif; ?>
                                 </td>
                             </tr>
+
                         <?php endforeach; ?>
+
                     </tbody>
 
                 </table>
+
             </div>
 
             <p class="mb-0 text-muted">
