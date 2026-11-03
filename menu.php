@@ -1,4 +1,51 @@
 <?php
+
+class Product
+{
+    public $name;
+    public $price;
+    public $stock;
+    public $image;
+    public $status;
+    public $discount = 0;
+
+    public function getFormattedPrice()
+    {
+        return 'Rp ' . number_format($this->price, 0, ',', '.');
+    }
+
+    public function calculateSubtotal($qty)
+    {
+        return $this->price * $qty;
+    }
+
+    public function getStockStatus()
+    {
+        if ($this->stock > 0 && $this->status) {
+            return 'Tersedia';
+        }
+
+        return 'Habis';
+    }
+
+    public function getCustomerLabel()
+    {
+        return 'Pelanggan Coffee Mas REY';
+    }
+
+    public function isActive()
+    {
+        return $this->stock > 0 && $this->status;
+    }
+
+    public function calculateDiscount()
+    {
+        return $this->price * $this->discount;
+    }
+}
+
+
+// DATA PRODUK COFFEE MAS REY
 $products = [
 
     [
@@ -91,6 +138,22 @@ $products = [
 
 ];
 
+
+$productObjects = [];
+
+foreach ($products as $item) {
+
+    $product = new Product();
+
+    $product->name = $item["name"];
+    $product->price = $item["price"];
+    $product->stock = $item["stock"];
+    $product->image = $item["image"];
+    $product->status = $item["status"];
+
+    $productObjects[] = $product;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -124,94 +187,165 @@ $products = [
         >
 
         <button type="button">
-            🔍 Search
         </button>
 
     </div>
 
 
-    <!-- INFORMASI ARRAY -->
+
     <div class="product-info">
 
         <p>
-            Produk pertama:
-            <?php echo $products[0]["name"]; ?>
+            <?php echo htmlspecialchars($products[0]["name"]); ?>
         </p>
 
         <p>
-            Total produk:
             <?php echo count($products); ?>
         </p>
 
     </div>
 
 
-    <!-- DAFTAR PRODUK -->
-
     <div class="menu-container">
 
-        <?php foreach ($products as $product) { ?>
+        <?php foreach ($productObjects as $product) { ?>
 
             <div class="card">
 
                 <img
-                    src="<?php echo $product["image"]; ?>"
-                    alt="<?php echo $product["name"]; ?>"
+                    src="<?php echo htmlspecialchars($product->image); ?>"
+                    alt="<?php echo htmlspecialchars($product->name); ?>"
                 >
 
                 <div class="card-body">
 
                     <h3>
-                        <?php echo $product["name"]; ?>
+                        <?php echo htmlspecialchars($product->name); ?>
                     </h3>
 
                     <h4>
-                        Rp
-                        <?php
-                        echo number_format(
-                            $product["price"],
-                            0,
-                            ',',
-                            '.'
-                        );
-                        ?>
+                        <?php echo $product->getFormattedPrice(); ?>
                     </h4>
 
                     <p>
-                        Stok:
-                        <?php echo $product["stock"]; ?>
+                        <?php echo $product->stock; ?>
                     </p>
 
                     <p>
-                        Status:
+                        <?php echo $product->getStockStatus(); ?>
+                    </p>
 
-                        <?php
+                    <?php if ($product->calculateDiscount() > 0) { ?>
 
-                        if ($product["status"]) {
+                        <p>
+                            Rp <?php echo number_format(
+                                $product->calculateDiscount(),
+                                0,
+                                ',',
+                                '.'
+                            ); ?>
+                        </p>
 
-                            echo "Tersedia";
+                    <?php } ?>
+
+
+
+                    <form method="get">
+
+                        <input
+                            type="hidden"
+                            name="product"
+                            value="<?php echo htmlspecialchars($product->name); ?>"
+                        >
+
+                        <select name="qty" required>
+
+                            <option value="">Pilih jumlah</option>
+
+                            <?php for ($i = 1; $i <= 5; $i++) { ?>
+
+                                <option
+                                    value="<?php echo $i; ?>"
+                                    <?php
+                                    if (
+                                        isset($_GET["product"], $_GET["qty"]) &&
+                                        $_GET["product"] === $product->name &&
+                                        (int) $_GET["qty"] === $i
+                                    ) {
+                                        echo 'selected';
+                                    }
+                                    ?>
+                                >
+                                    <?php echo $i; ?>
+                                </option>
+
+                            <?php } ?>
+
+                        </select>
+
+                        <button
+                            type="submit"
+                            <?php echo !$product->isActive() ? 'disabled' : ''; ?>
+                        >
+                    
+                        </button>
+
+                    </form>
+
+
+                    <?php
+
+                    if (
+                        isset($_GET["product"], $_GET["qty"]) &&
+                        $_GET["product"] === $product->name
+                    ) {
+
+                        $qty = filter_var(
+                            $_GET["qty"],
+                            FILTER_VALIDATE_INT
+                        );
+
+                        if (
+                            $qty !== false &&
+                            $qty >= 1 &&
+                            $qty <= 5 &&
+                            $qty <= $product->stock &&
+                            $product->isActive()
+                        ) {
+
+                    ?>
+
+                        <p class="subtotal">
+                            Subtotal:
+                            <strong>
+                                Rp <?php echo number_format(
+                                    $product->calculateSubtotal($qty),
+                                    0,
+                                    ',',
+                                    '.'
+                                ); ?>
+                            </strong>
+                        </p>
+
+                    <?php
+
+                        } elseif (
+                            $qty !== false &&
+                            $qty >= 1 &&
+                            $qty <= 5 &&
+                            $qty > $product->stock
+                        ) {
+
+                            echo '<p>Jumlah pesanan melebihi stok.</p>';
 
                         } else {
 
-                            echo "Habis";
+                            echo '<p>Pilih jumlah pesanan yang valid.</p>';
 
                         }
+                    }
 
-                        ?>
-
-                    </p>
-
-                    <select>
-
-                        <option>Pilih jumlah</option>
-
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-
-                    </select>
+                    ?>
 
                 </div>
 
