@@ -9,6 +9,16 @@ class Product
     public $status;
     public $discount = 0;
 
+    public function __construct($name, $price, $stock, $image, $status, $discount = 0)
+    {
+        $this->name = $name;
+        $this->price = $price;
+        $this->stock = $stock;
+        $this->image = $image;
+        $this->status = $status;
+        $this->discount = $discount;
+    }
+
     public function getFormattedPrice()
     {
         return 'Rp ' . number_format($this->price, 0, ',', '.');
@@ -45,7 +55,8 @@ class Product
 }
 
 
-// DATA PRODUK COFFEE MAS REY
+
+
 $products = [
 
     [
@@ -139,17 +150,18 @@ $products = [
 ];
 
 
+
 $productObjects = [];
 
 foreach ($products as $item) {
 
-    $product = new Product();
-
-    $product->name = $item["name"];
-    $product->price = $item["price"];
-    $product->stock = $item["stock"];
-    $product->image = $item["image"];
-    $product->status = $item["status"];
+    $product = new Product(
+        $item["name"],
+        $item["price"],
+        $item["stock"],
+        $item["image"],
+        $item["status"]
+    );
 
     $productObjects[] = $product;
 }
@@ -190,7 +202,6 @@ foreach ($products as $item) {
         </button>
 
     </div>
-
 
 
     <div class="product-info">
@@ -235,6 +246,7 @@ foreach ($products as $item) {
                         <?php echo $product->getStockStatus(); ?>
                     </p>
 
+
                     <?php if ($product->calculateDiscount() > 0) { ?>
 
                         <p>
@@ -247,7 +259,6 @@ foreach ($products as $item) {
                         </p>
 
                     <?php } ?>
-
 
 
                     <form method="get">
@@ -276,18 +287,21 @@ foreach ($products as $item) {
                                     }
                                     ?>
                                 >
+
                                     <?php echo $i; ?>
+
                                 </option>
 
                             <?php } ?>
 
                         </select>
 
+
                         <button
                             type="submit"
                             <?php echo !$product->isActive() ? 'disabled' : ''; ?>
                         >
-                    
+
                         </button>
 
                     </form>
@@ -316,7 +330,9 @@ foreach ($products as $item) {
                     ?>
 
                         <p class="subtotal">
+
                             Subtotal:
+
                             <strong>
                                 Rp <?php echo number_format(
                                     $product->calculateSubtotal($qty),
@@ -325,6 +341,7 @@ foreach ($products as $item) {
                                     '.'
                                 ); ?>
                             </strong>
+
                         </p>
 
                     <?php
@@ -343,6 +360,7 @@ foreach ($products as $item) {
                             echo '<p>Pilih jumlah pesanan yang valid.</p>';
 
                         }
+
                     }
 
                     ?>
