@@ -38,6 +38,26 @@ $customers = [
     ]
 ];
 
+// ===== BAB 13 - FORM GET FILTER REPORT =====
+
+$keyword = $_GET['keyword'] ?? '';
+$typeFilter = $_GET['type'] ?? '';
+
+$filteredCustomers = [];
+
+foreach ($customers as $customer) {
+
+    $matchKeyword = $keyword === '' ||
+        stripos($customer['name'], $keyword) !== false;
+
+    $matchType = $typeFilter === '' ||
+        $customer['type'] === $typeFilter;
+
+    if ($matchKeyword && $matchType) {
+        $filteredCustomers[] = $customer;
+    }
+}
+
 $totalMember = 0;
 $totalVIP = 0;
 
@@ -111,6 +131,56 @@ foreach ($customers as $customer) {
 
             </div>
 
+            <!-- FORM GET FILTER REPORT -->
+
+            <form method="GET" class="mb-3">
+
+                <div class="row g-2">
+
+                    <div class="col-md-5">
+                        <input
+                            type="text"
+                            name="keyword"
+                            class="form-control"
+                            placeholder="Cari nama customer..."
+                            value="<?= htmlspecialchars($keyword) ?>">
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <select name="type" class="form-select">
+
+                            <option value="">Semua Tipe</option>
+
+                            <option value="regular"
+                                <?= $typeFilter === 'regular' ? 'selected' : '' ?>>
+                                Regular
+                            </option>
+
+                            <option value="member"
+                                <?= $typeFilter === 'member' ? 'selected' : '' ?>>
+                                Member
+                            </option>
+
+                            <option value="vip"
+                                <?= $typeFilter === 'vip' ? 'selected' : '' ?>>
+                                VIP
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">
+                            Filter
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
             <div class="table-responsive">
 
                 <table class="table table-bordered table-striped align-middle">
@@ -127,7 +197,17 @@ foreach ($customers as $customer) {
 
                     <tbody>
 
-                        <?php foreach ($customers as $index => $customer): ?>
+                        <?php if (count($filteredCustomers) === 0): ?>
+
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    Data customer tidak ditemukan
+                                </td>
+                            </tr>
+
+                        <?php endif; ?>
+
+                        <?php foreach ($filteredCustomers as $index => $customer): ?>
 
                             <tr>
                                 <td><?= $index + 1 ?></td>
