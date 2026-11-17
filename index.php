@@ -12,7 +12,6 @@
 
 <body>
 
-    <!-- ================= HEADER ================= -->
 
     <header>
         <div class="container">
@@ -36,7 +35,6 @@
     </header>
 
 
-    <!-- ================= HERO ================= -->
 
     <section class="home-hero">
 
@@ -66,7 +64,6 @@
     </section>
 
 
-    <!-- ================= INTRO ================= -->
 
     <section class="home-intro">
 
@@ -89,7 +86,7 @@
                 </p>
 
                 <a href="about.html" class="text-link">
-                    Kenal lebih dekat →
+                    Kenal lebih dekat 
                 </a>
 
             </div>
@@ -112,7 +109,6 @@
     </section>
 
 
-    <!-- ================= MENU ================= -->
 
     <section class="home-menu">
 
@@ -131,7 +127,6 @@
 
         <div class="home-menu-grid">
 
-            <!-- 01 -->
             <div class="home-menu-card">
 
                 <span class="menu-no">01</span>
@@ -147,7 +142,6 @@
             </div>
 
 
-            <!-- 02 -->
             <div class="home-menu-card">
 
                 <span class="menu-no">02</span>
@@ -156,14 +150,14 @@
 
                 <h3>Caramel Macchiato</h3>
 
-                <p>Perpaduan kopi, susu dan caramel yang lembut.</p>
+                <p>Perpaduan kopi susu dan caramel yang lembut.</p>
 
                 <strong>Rp 40.000</strong>
 
             </div>
 
 
-            <!-- 03 -->
+            
             <div class="home-menu-card">
 
                 <span class="menu-no">03</span>
@@ -179,7 +173,7 @@
             </div>
 
 
-            <!-- 04 -->
+            
             <div class="home-menu-card">
 
                 <span class="menu-no">04</span>
@@ -199,14 +193,13 @@
 
         <div class="home-menu-button">
             <a href="menu.html" class="home-btn dark-btn">
-                Lihat Semua Menu →
+                Lihat Semua Menu 
             </a>
         </div>
 
     </section>
 
 
-    <!-- ================= EXPERIENCE ================= -->
 
     <section class="home-experience">
 
@@ -235,8 +228,6 @@
 
     </section>
 
-
-    <!-- ================= FOOTER ================= -->
 
     <footer>
 
